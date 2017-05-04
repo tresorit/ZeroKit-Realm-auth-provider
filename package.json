@@ -1,0 +1,14 @@
+{
+  "name": "realm-auth-module-zerokit",
+  "version": "1.0.0",
+  "description": "Authentication module for Realm Object Server to enable ZeroKit authnetication.",
+  "main": "zerokitauth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tresorit AG.",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "jsonwebtoken": "^7.4.0"
+  }
+}
