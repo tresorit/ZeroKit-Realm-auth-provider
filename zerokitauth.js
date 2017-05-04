@@ -66,28 +66,16 @@ module.exports = function(deps) {
             throw new deps.problem.HttpProblem.Unauthorized({ detail: "Invalid issuer" });
 
           // 3. The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience. The aud (audience) Claim MAY contain an array with more than one element. The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
-          if (idtoken.payload.aud !== this._client_id) // TODO: multiple audience
+          if (idtoken.payload.aud !== this._client_id)
             throw new deps.problem.HttpProblem.Unauthorized({ detail: "Invalid audience" });
 
-          // TODO: We don't serve tokens with multiple audiences and there is no azp claim (but we should still do the validation)
+          // NOTE: We don't serve tokens with multiple audiences and there is no azp claim (but we should still do the validation)
           // 4. If the ID Token contains multiple audiences, the Client SHOULD verify that an azp Claim is present.
           // 5. If an azp (authorized party) Claim is present, the Client SHOULD verify that its client_id is the Claim Value.
 
           // 6. If the ID Token is received via direct communication between the Client and the Token Endpoint (which it is in this flow), the TLS server validation MAY be used to validate the issuer in place of checking the token signature. The Client MUST validate the signature of all other ID Tokens according to JWS [JWS] using the algorithm specified in the JWT alg Header Parameter. The Client MUST use the keys provided by the Issuer.
           // This is direct communication in our case
-          /* but it can be done if specified in the config
-           if (config.zeroKit.idp.validateSignature && config.zeroKit.idp.keyValidationFile) {
-           const path = require("path"); // Should be moved up top if used
-           const pems = require(path.join(__dirname, config.zeroKit.idp.keyValidationFile));
-           try {
-           jwt.verify(results.id_token, pems[idtoken.header.kid], {
-           algorithms: ["RS256"]
-           });
-           } catch (ex) {
-           return throw new deps.problem.HttpProblem.Unauthorized({detail: "TokenValidationError", ex});
-           }
-           }
-           */
+          
           // 7. The alg value SHOULD be the default of RS256 or the algorithm sent by the Client in the id_token_signed_response_alg parameter during Registration.
           if (idtoken.header.alg !== "RS256")
             throw new deps.problem.HttpProblem.Unauthorized({ detail: "Invalid signing alg" });
@@ -103,7 +91,7 @@ module.exports = function(deps) {
           if (idtoken.payload.iat * 1000 > Date.now())
             throw new deps.problem.HttpProblem.Unauthorized({ detail: "Token issued in future" });
 
-          /* TODO: we don't requiest anything else, but we should think about implementing some kind of validation
+          /* NOTE: we don't requiest anything else, but we should think about implementing some kind of validation
            10. If a nonce value was sent in the Authentication Request, a nonce Claim MUST be present and its value checked to verify that it is the same value as the one that was sent in the Authentication Request. The Client SHOULD check the nonce value for replay attacks. The precise method for detecting replay attacks is Client specific.
            11. If the acr Claim was requested, the Client SHOULD check that the asserted Claim Value is appropriate. The meaning and processing of acr Claim Values is out of scope for this specification.
            12. If the auth_time Claim was requested, either through a specific request for this Claim or by using the max_age parameter, the Client SHOULD check the auth_time Claim value and request re-authentication if it determines too much time has elapsed since the last End-userSchema authentication.

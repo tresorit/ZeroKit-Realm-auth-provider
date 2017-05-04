@@ -104,27 +104,27 @@ Realm Object Server's config file is can be found:
 
 - - - - - - - - - - - - - - Copy after this line - - - - - - - - - - - - - - - -
   providers:
-     # This enables login via ZeroKit's secure identity provider
-     custom/zerokit:
-       # The client ID of the IDP client created for the Realm object server
-       # on ZeroKit management portal (https://manage.tresori.io)
-       client_id: 'your_idp_client_id'
+    # This enables login via ZeroKit's secure identity provider
+    custom/zerokit:
+      # The client ID of the IDP client created for the Realm object server
+      # on ZeroKit management portal (https://manage.tresori.io)
+      client_id: 'your_idp_client_id'
 
-       # The client secret of the IDP client created for the Realm object server
-       # on ZeroKit management portal (https://manage.tresori.io)
-       client_secret: 'your_idp_client_secret'
+      # The client secret of the IDP client created for the Realm object server
+      # on ZeroKit management portal (https://manage.tresori.io)
+      client_secret: 'your_idp_client_secret'
 
-       # The service URL of your ZeroKit tenant. It can be found on the main
-       # configuration page of your tenant on ZeroKit management portal
-       # (https://manage.tresori.io)
-       service_url: 'https://your_tenant_id.api.tresorit.io'
+      # The service URL of your ZeroKit tenant. It can be found on the main
+      # configuration page of your tenant on ZeroKit management portal
+      # (https://manage.tresori.io)
+      service_url: 'https://your_tenant_id.api.tresorit.io'
 
-       # The include path to use for including ZeroKit auth implementation.
-       # Usually it's /usr/local/zerokit/zerokit-realm-auth-provider
-       include_path: '/usr/local/zerokit/zerokit-realm-auth-provider'
+      # The include path to use for including ZeroKit auth implementation.
+      # Usually it's /usr/local/zerokit/zerokit-realm-auth-provider
+      include_path: '/usr/local/zerokit/zerokit-realm-auth-provider'
 
-       # This refers to the actual implementation (should be zerokitauth)
-       implementation: 'zerokitauth'
+      # This refers to the actual implementation (should be zerokitauth)
+      implementation: 'zerokitauth'
 - - - - - - - - - - - - - - Copy before this line - - - - - - - - - - - - - - -
 
 EOF

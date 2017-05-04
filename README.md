@@ -22,7 +22,7 @@ ZeroKit-Realm-auth-provider is an authentication module for Realm Object Server 
 This will automatically proceed the installation. Please type the following command into a shell:
 
 ```bash
-curl -sL https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/zerokitauth.install.sh | sudo -E bash -
+curl -sL https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/install.sh | sudo -E bash -
 ```
 
 After the script completes, you can continue with Configuration steps.
