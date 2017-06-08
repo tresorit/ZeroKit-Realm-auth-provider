@@ -60,7 +60,8 @@ The installation is complete, but to automatically load the module the server ha
   ```yml
   auth:
     providers:
-       # This enables login via ZeroKit's secure identity provider:
+	  # This enables login via ZeroKit's secure identity provider
+      custom/zerokit:
        # The client ID of the IDP client created for the Realm object server
        # on ZeroKit management portal (https://manage.tresori.io)
        client_id: 'example_client'
