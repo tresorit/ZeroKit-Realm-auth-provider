@@ -83,28 +83,56 @@ The installation is complete, but to automatically load the module the server ha
       implementation: 'zerokitauth'
   ```
 
-2. Navigate to the configuration page of you tenant at https://manage.tresorit.io, find the "IDP" section and add a new hybrid flow client.
+2. Navigate to the configuration page of you tenant at https://manage.tresorit.io, find the "IDP" section and add a sdk client by clicking on the "Add SDK client button".
+
+  ![alt text](https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/images/zerokit_realm_idp_section.png "Add SDK client")
+
   * The name can be your choice, its only used by the portal to identify your client.
-  * Please add the following redirect URL: "https://{client_id}.{tenant_id}.api.tresorit.io/", where you substitute {client_id} for the id of the actual client, and {tenant_id} is the id of your tenant.
-     **Notice the slash ("/") at the end of the URL.**
-  * Please set the client flow to "Hybrid"
   * Click apply. (It can take 2-5 minutes for the changes to be effective).
+  
+  ***Note:*** You will need the data displayed here later. Remember: you can come back here anytime and click on the name of the client to see or edit details of it.
 
   ![alt text](https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/images/zerokit_realm_idp_client.png "Example IDP config")
 
 3. Edit /etc/realm/configuration.yml, and copy the newly created IDP client's information from the management portal to the previously created config section. 
 
-  ![alt text](https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/images/zerokit_realm_auth_config.png "Example auth config")
+  ```yml
+  auth:
+    providers:
+	  # This enables login via ZeroKit's secure identity provider
+      custom/zerokit:
+       # The client ID of the IDP client created for the Realm object server
+       # on ZeroKit management portal (https://manage.tresori.io)
+       client_id: 'huexq#####_yS5yfJaHIB_sdk'
+  
+       # The client secret of the IDP client created for the Realm object server
+       # on ZeroKit management portal (https://manage.tresori.io)
+       client_secret: 'bJDJJDolRJLnXdF8'
+  
+       # The service URL of your ZeroKit tenant. It can be found on the main
+       # configuration page of your tenant on ZeroKit management portal
+       # (https://manage.tresori.io)
+       service_url: 'https://huexq#####.api.tresorit.io'
+
+      # The include path to use for including ZeroKit auth implementation.
+      # Usually it's /usr/local/zerokit/zerokit-realm-auth-provider
+      include_path: '/usr/local/zerokit/zerokit-realm-auth-provider'
+
+      # This refers to the actual implementation (should be zerokitauth)
+      implementation: 'zerokitauth'
+  ```
 
   ***Note:*** The service URL of your tenant can also be found on the same config page:
   
   ![alt text](https://github.com/tresorit/ZeroKit-Realm-auth-provider/raw/master/images/zerokit_realm_service_url.png "Example auth config")
 
-4. Now you can restart ROS to pick up new config. Please type the following line in a terminal:
+4. Now you can restart ROS to pick up new config. If you are using **linux**, please type the following line in a terminal:
 
-```bash
-sudo systemctl restart realm-object-server
-```
+  ```bash
+  sudo systemctl restart realm-object-server
+  ```
+
+  If you are using **OsX**, you have to stop and start again ROS with the script provided in the bundle (*"start-object-server.command"*).
 
 # Usage from clients:
 To use the authentication from clients, first you have to include both ZeroKit client SDK and Realm client SDK into your app.
@@ -113,7 +141,7 @@ To use the authentication from clients, first you have to include both ZeroKit c
 
 2. Take the authorization code from the result and call the custom authentication function of the Realm SDK with the following parameters:
   * token: authorization code
-  * auth type: "zerokit"
+  * auth type: "custom/zerokit"
 
   **Note:** only if the ZeroKit api returned a verifier, concatenate the verifier to the authorization code separated by a colon (':').
 
