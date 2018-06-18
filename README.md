@@ -1,3 +1,6 @@
+**Notice:** This project is discontinued and no longer maintained nor supported by Tresorit. This repository only exists for archival purposes.
+***
+
 # ZeroKit-Realm-auth-provider
 ZeroKit-Realm-auth-provider is an authentication module for Realm Object Server (ROS) to enable ZeroKit-based authentication.
 
